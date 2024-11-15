@@ -4,6 +4,4 @@ from blog.models import Blog
 
 
 @admin.register(Blog)
-class BlogAdmin(admin.ModelAdmin):
-    ...
-
+class BlogAdmin(admin.ModelAdmin): ...

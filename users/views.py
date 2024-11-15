@@ -12,12 +12,14 @@ def sign_up(request):
     if form.is_valid():
         form.save()
         from django.shortcuts import redirect
+
         return redirect(settings.LOGIN_URL)
 
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'registration/signup.html', context)
+    return render(request, "registration/signup.html", context)
+
 
 def login(request):
     form = AuthenticationForm(request, data=request.POST or None)
@@ -26,9 +28,10 @@ def login(request):
         return redirect(settings.LOGIN_REDIRECT_URL)
 
     context = {
-        'form': form,
+        "form": form,
     }
-    return render(request, 'registration/login.html', context)
+    return render(request, "registration/login.html", context)
+
 
 #
 # def todo_list(request):

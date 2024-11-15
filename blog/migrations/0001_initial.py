@@ -7,19 +7,44 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Blog',
+            name="Blog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category', models.CharField(choices=[('free', '자유'), ('travel', '여행'), ('cat', '고양이'), ('dog', '강아지')], max_length=10, verbose_name='카테고리')),
-                ('title', models.CharField(max_length=100, verbose_name='제목')),
-                ('content', models.TextField(verbose_name='본문')),
-                ('created', models.DateTimeField(auto_now_add=True, verbose_name='작성일자')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='수정일자')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("free", "자유"),
+                            ("travel", "여행"),
+                            ("cat", "고양이"),
+                            ("dog", "강아지"),
+                        ],
+                        max_length=10,
+                        verbose_name="카테고리",
+                    ),
+                ),
+                ("title", models.CharField(max_length=100, verbose_name="제목")),
+                ("content", models.TextField(verbose_name="본문")),
+                (
+                    "created",
+                    models.DateTimeField(auto_now_add=True, verbose_name="작성일자"),
+                ),
+                (
+                    "updated_at",
+                    models.DateTimeField(auto_now=True, verbose_name="수정일자"),
+                ),
             ],
         ),
     ]

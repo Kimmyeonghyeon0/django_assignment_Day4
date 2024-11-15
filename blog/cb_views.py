@@ -4,7 +4,13 @@ from lib2to3.fixes.fix_input import context
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
 from blog.models import Blog
 from django.db.models import Q
@@ -12,27 +18,24 @@ from django.db.models import Q
 
 class BlogListView(ListView):
     # model = Blog
-    queryset = Blog.objects.all().order_by('-created_at')
-    template_name = 'blog_list.html'
+    queryset = Blog.objects.all().order_by("-created_at")
+    template_name = "blog_list.html"
     paginator = 10
 
     def get_queryset(self):
         queryset = super().get_queryset()
 
-        q = self.request.GET.get('q')
+        q = self.request.GET.get("q")
 
         if q:
-            queryset = queryset.filter(
-                Q(title__icontains=q) |
-                Q(content__icontains=q)
-            )
+            queryset = queryset.filter(Q(title__icontains=q) | Q(content__icontains=q))
 
             return queryset
 
 
 class BlogDetailView(DetailView):
     model = Blog
-    template_name = 'blog_detail.html'
+    template_name = "blog_detail.html"
 
     # def get_queryset(self):
     #     queryset = super().get_queryset()
@@ -52,8 +55,8 @@ class BlogDetailView(DetailView):
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
-    template_name = 'blog_create.html'
-    fields = ['title', 'content']
+    template_name = "blog_create.html"
+    fields = ["title", "content"]
     # success_url = reverse_lazy('cb_blog_detail', kwargs={'pk': object.pk})
 
     def form_valid(self, form):
@@ -62,19 +65,19 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
-
     def get_success_url(self):
-        return reverse_lazy('cb_blog_detail', kwargs={'pk': self.object.pk})
+        return reverse_lazy("cb_blog_detail", kwargs={"pk": self.object.pk})
 
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
-    template_name = 'blog_update.html'
-    fields = ['title', 'content']
+    template_name = "blog_update.html"
+    fields = ["title", "content"]
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        return queryset
+        return queryset.filter(author=self.request.user)
+
     # def get_object(self, queryset=None):
     #     self.object = super().get_object(queryset)
     #
@@ -85,3 +88,14 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
     # def get_success_url(self):
     #     return reverse_lazy('cb_blog_detail', kwargs={'pk': self.object.pk})
 
+
+class BlogDeleteView(LoginRequiredMixin, DeleteView):
+    model = Blog
+    # template_name = 'blog_delete.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(author=self.request.user)
+
+    def get_success_url(self):
+        return reverse_lazy("blog_list")

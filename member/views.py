@@ -7,25 +7,23 @@ from django.shortcuts import render, redirect
 
 
 def sign_up(request):
-#     username = request.POST.get('username')
-#     password1 = request.POST.get('password1')
-#     password2 = request.POST.get('password2')
-#
-#
-#     print('username', username)
-#     print('password1', password1)
-#     print('password2', password2)
+    #     username = request.POST.get('username')
+    #     password1 = request.POST.get('password1')
+    #     password2 = request.POST.get('password2')
+    #
+    #
+    #     print('username', username)
+    #     print('password1', password1)
+    #     print('password2', password2)
 
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         form.save()
         return redirect(settings.LOGIN_URL)
 
-    context = {
-        'form': form
-    }
+    context = {"form": form}
 
-    return render(request, 'registration/signup.html', context)
+    return render(request, "registration/signup.html", context)
 
 
 def login(request):
@@ -34,15 +32,13 @@ def login(request):
         django_login(request, form.get_user())
         from django.urls import reverse
 
-        next = request.GET.get('next')
+        next = request.GET.get("next")
         if next:
             return redirect(next)
 
-        return redirect(reverse('blog_list'))
+        return redirect(reverse("blog_list"))
     else:
         form = AuthenticationForm(request)
 
-    context = {
-        'form': form
-    }
-    return render(request, 'registration/login.html', context)
+    context = {"form": form}
+    return render(request, "registration/login.html", context)
