@@ -1,6 +1,7 @@
 from django.urls import path
 
 from blog import cb_views
+
 # from config.urls import urlpatterns
 
 app_name = "blog"

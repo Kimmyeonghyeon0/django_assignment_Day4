@@ -1,7 +1,8 @@
 from django.urls import path
+
 from blog import views
 
-app_name = 'fb'
+app_name = "fb"
 
 urlpatterns = [
     path("", views.blog_list, name="list"),

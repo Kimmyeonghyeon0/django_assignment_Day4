@@ -22,7 +22,9 @@ class Blog(models.Model):
         ("dog", "강아지"),
     )
 
-    category = models.CharField("카테고리", max_length=10, choices=CATEGORY_CHOICES, default="free")
+    category = models.CharField(
+        "카테고리", max_length=10, choices=CATEGORY_CHOICES, default="free"
+    )
     title = models.CharField("제목", max_length=100)
     content = models.TextField("본문")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -38,7 +40,6 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         return reverse("cb_blog_detail", kwargs={"pk": self.pk})
-
 
     class Meta:
         verbose_name = "블로그"

@@ -3,15 +3,15 @@ from lib2to3.fixes.fix_input import context
 
 # import Paginator
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import Http404, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from blog.forms import BlogForm
 from blog.models import Blog
-from django.db.models import Q
 
 
 #
@@ -65,9 +65,7 @@ def blog_create(request):
 
     form = BlogForm()
 
-    context = {
-        "form": form
-    }
+    context = {"form": form}
     return render(request, "blog_create.html", context)
 
 

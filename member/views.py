@@ -1,9 +1,10 @@
 from django.conf import settings
-from config import settings
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth import login as django_login
-from django.shortcuts import render, redirect
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.models import User
+from django.shortcuts import redirect, render
+
+from config import settings
 
 
 def sign_up(request):

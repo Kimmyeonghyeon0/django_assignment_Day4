@@ -2,18 +2,13 @@ from audioop import reverse
 from lib2to3.fixes.fix_input import context
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.db.models import Q
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import (
-    ListView,
-    DetailView,
-    CreateView,
-    UpdateView,
-    DeleteView,
-)
+from django.views.generic import (CreateView, DeleteView, DetailView, ListView,
+                                  UpdateView)
 
 from blog.models import Blog
-from django.db.models import Q
 
 
 class BlogListView(ListView):
@@ -56,7 +51,7 @@ class BlogDetailView(DetailView):
 class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
     template_name = "blog_create.html"
-    fields = ['category', "title", "content"]
+    fields = ["category", "title", "content"]
     # success_url = reverse_lazy('cb_blog_detail', kwargs={'pk': object.pk})
 
     def form_valid(self, form):

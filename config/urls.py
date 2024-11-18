@@ -34,12 +34,11 @@ Including another URLconf
 
 from django.contrib import admin
 from django.shortcuts import redirect, render
-from django.urls import path, include
+from django.urls import include, path
 from django.views import View
-from django.views.generic import TemplateView, RedirectView
+from django.views.generic import RedirectView, TemplateView
 
-from blog import views
-from blog import cb_views
+from blog import cb_views, views
 from member import views as member_views
 
 # class AboutView(TemplateView):
@@ -56,15 +55,14 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # FBV blog
     path("", include("blog.urls")),
-    path('fb/', include('blog.fbv_urls')),
-
-    path('cb/', cb_views.BlogListView.as_view(), name='cb_blog_list'),
-    path('cb/<int:pk>/', cb_views.BlogDetailView.as_view(), name='cb_blog_detail'),
-	path('cb/create/', cb_views.BlogCreateView.as_view(), name='cb_blog_create'),
-
-    path('cb/<int:pk>/update/', cb_views.BlogUpdateView.as_view(), name='cb_blog_update'),
-	path('<int:pk>/delete/', cb_views.BlogDeleteView.as_view(), name='blog_delete'),
-
+    path("fb/", include("blog.fbv_urls")),
+    path("cb/", cb_views.BlogListView.as_view(), name="cb_blog_list"),
+    path("cb/<int:pk>/", cb_views.BlogDetailView.as_view(), name="cb_blog_detail"),
+    path("cb/create/", cb_views.BlogCreateView.as_view(), name="cb_blog_create"),
+    path(
+        "cb/<int:pk>/update/", cb_views.BlogUpdateView.as_view(), name="cb_blog_update"
+    ),
+    path("<int:pk>/delete/", cb_views.BlogDeleteView.as_view(), name="blog_delete"),
     # auth
     path("accounts/", include("django.contrib.auth.urls")),
     path("signup/", member_views.sign_up, name="signup"),
