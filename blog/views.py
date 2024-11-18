@@ -1,7 +1,7 @@
 from importlib.resources import contents
 from lib2to3.fixes.fix_input import context
 
-import paginator
+# import Paginator
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
@@ -61,11 +61,13 @@ def blog_create(request):
         blog = form.save(commit=False)
         blog.author = request.user
         blog.save()
-        return redirect(reverse("blog_detail", kwargs={"pk": blog.pk}))
+        return redirect(reverse("fb:detail", kwargs={"pk": blog.pk}))
 
     form = BlogForm()
 
-    context = {"form": form}
+    context = {
+        "form": form
+    }
     return render(request, "blog_create.html", context)
 
 
@@ -78,7 +80,7 @@ def blog_update(request, pk):
     form = BlogForm(request.POST or None, instance=blog)
     if form.is_valid():
         blog = form.save()
-        return redirect(reverse("blog_detail", kwargs={"pk": blog.pk}))
+        return redirect(reverse("fb:detail", kwargs={"pk": blog.pk}))
 
     context = {
         "blog": blog,
@@ -96,4 +98,4 @@ def blog_delete(request, pk):
     blog = get_object_or_404(Blog, pk=pk, author=request.user)
     blog.delete()
 
-    return redirect(reverse("blog_list"))
+    return redirect(reverse("fb:blog_list"))
