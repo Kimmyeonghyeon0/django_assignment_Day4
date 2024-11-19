@@ -84,7 +84,7 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button type="submit" class="login-button">Login</button>
+                <button type="submit" class="btn btn-primary">Login</button>
                 <span>
                     아직 회원이 아니라면 회원가입을 진행해주세요.
                     <a href="{% url 'signup' %}">회원가입</a>
@@ -93,5 +93,9 @@
         </div>
     </div>
 {% endblock content %}
+{% block js %}
+    {% include 'form-js.html' %}
+{% endblock %}
+
 </body>
 </html>

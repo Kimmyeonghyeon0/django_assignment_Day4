@@ -65,9 +65,10 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sub_title'] = '작성'
-        context['btn_name'] = "생성"
+        context["sub_title"] = "작성"
+        context["btn_name"] = "생성"
         return context
+
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
@@ -80,11 +81,10 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
             return queryset
         return queryset.filter(author=self.request.user)
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['sub_title'] = '수정'
-        context['btn_name'] = "수정"
+        context["sub_title"] = "수정"
+        context["btn_name"] = "수정"
         return context
 
     # def get_object(self, queryset=None):

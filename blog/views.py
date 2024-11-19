@@ -69,8 +69,6 @@ def blog_create(request):
     return render(request, "blog_form.html", context)
 
 
-
-
 @login_required()
 def blog_update(request, pk):
     blog = get_object_or_404(Blog, pk=pk, author=request.user)
