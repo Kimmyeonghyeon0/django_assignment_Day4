@@ -50,7 +50,7 @@ class BlogDetailView(DetailView):
 
 class BlogCreateView(LoginRequiredMixin, CreateView):
     model = Blog
-    template_name = "blog_create.html"
+    template_name = "blog_form.html"
     fields = ["category", "title", "content"]
     # success_url = reverse_lazy('cb_blog_detail', kwargs={'pk': object.pk})
 
@@ -63,10 +63,15 @@ class BlogCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse_lazy("cb_blog_detail", kwargs={"pk": self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sub_title'] = '작성'
+        context['btn_name'] = "생성"
+        return context
 
 class BlogUpdateView(LoginRequiredMixin, UpdateView):
     model = Blog
-    template_name = "blog_update.html"
+    template_name = "blog_form.html"
     fields = ["title", "content"]
 
     def get_queryset(self):
@@ -74,6 +79,13 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
         if self.request.user.is_staff:
             return queryset
         return queryset.filter(author=self.request.user)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['sub_title'] = '수정'
+        context['btn_name'] = "수정"
+        return context
 
     # def get_object(self, queryset=None):
     #     self.object = super().get_object(queryset)
