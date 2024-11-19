@@ -3,6 +3,8 @@ from audioop import reverse
 from django.contrib.auth import get_user_model
 from django.db import models
 
+from blog.utils.models import TimestampModel
+
 User = get_user_model()
 
 # 제목
@@ -13,7 +15,10 @@ User = get_user_model()
 # 카테고리
 
 
-class Blog(models.Model):
+
+
+
+class Blog(TimestampModel):
     User = get_user_model()
     CATEGORY_CHOICES = (
         ("free", "자유"),
@@ -32,8 +37,7 @@ class Blog(models.Model):
     # models.PROTECT => 삭제가 불가능한 (유저를 삭제하려고 할때 블로그가 있으면 유저 삭제가 불가능)
     # models.SET_NULL => NULL값을 넣습니다 => 유저 삭제시 블로그의 author가 null이
 
-    created_at = models.DateTimeField("작성일자", auto_now_add=True)
-    updated_at = models.DateTimeField("수정일자", auto_now=True)
+
 
     def __str__(self):
         return f"[{self.get_category_display()}] {self.title[:10]}"
@@ -44,3 +48,21 @@ class Blog(models.Model):
     class Meta:
         verbose_name = "블로그"
         verbose_name_plural = "블로그 목록"
+
+
+class Comment(TimestampModel):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    content = models.CharField('본문', max_length=255)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.blog.title} 댓글'
+
+    class Meta:
+        verbose_name = '댓글'
+        verbose_name_plural = '댓글 목록'
+    # blog 정보
+    # 댓글의 내용
+    # 작성자
+    # 작성일자
+    # 수정일자
